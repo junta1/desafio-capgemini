@@ -12,7 +12,7 @@ services:
         - ./infra:/application
       environment:
         - MYSQL_ROOT_PASSWORD=root
-        - MYSQL_DATABASE=banco_capgemini_db
+        - MYSQL_DATABASE=bank_db
         - MYSQL_USER=root
         - MYSQL_PASSWORD=root
       ports:
