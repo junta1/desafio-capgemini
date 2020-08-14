@@ -5,6 +5,7 @@ namespace Bank\Services;
 
 use Bank\Models\AccountModel;
 use Bank\Repositories\AccountRepository;
+use Illuminate\Database\Eloquent\Model;
 
 class AccountService
 {
@@ -27,7 +28,14 @@ class AccountService
         return $outputCustom;
     }
 
-    public function outputCustom(AccountModel $output): array
+    public function find(int $id)
+    {
+        $output = $this->account->find($id);
+
+        return $this->outputCustom($output);
+    }
+
+    public function outputCustom(Model $output): array
     {
 
         return [

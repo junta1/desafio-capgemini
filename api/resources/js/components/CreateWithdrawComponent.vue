@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card">
-                    <div class="card-header">Tela para efetuar um saque</div>
+                    <div class="card-header">Saque</div>
 
                     <div class="card-body">
                         <form>
@@ -11,7 +11,6 @@
                                 <label for="value">Valor do Saque</label>
                                 <input type="number" v-model="value" class="form-control" id="value"
                                        aria-describedby="withdrawHelp" placeholder="Enter email">
-                                <small id="withdrawHelp" class="form-text text-muted">Efetue um saque.</small>
                             </div>
                             <button type="submit" @click.prevent="withdrawSave" class="btn btn-primary">Enviar</button>
                         </form>
@@ -19,7 +18,26 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">Depósito</div>
+
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="valueDeposito">Valor do Depósito</label>
+                                <input type="number" v-model="valueDeposit" class="form-control" id="valueDeposito"
+                                       aria-describedby="withdrawHelp" placeholder="Enter email">
+                            </div>
+                            <button type="submit" @click.prevent="depositSave" class="btn btn-primary">Enviar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">Todas as contas</div>
 
@@ -31,14 +49,24 @@
                                 <th scope="col">Agencia</th>
                                 <th scope="col">Conta</th>
                                 <th scope="col">Saldo</th>
+                                <th scope="col">Cliente</th>
+                                <th scope="col">Banco</th>
+                                <th scope="col">Ação</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
+                            <tr v-for="(account,index) in accounts.data" :key="account.idAccount">
+                                <th scope="row">{{ index + 1 }}</th>
+                                <td>{{ account.agency }}</td>
+                                <td>{{ account.account }}</td>
+                                <td>{{ account.balance }}</td>
+                                <td>{{ account.client }}</td>
+                                <td>{{ account.bank }}</td>
+                                <td>
+                                    <button type="button" @click.prevent="accountView" class="btn btn-primary">
+                                        Ver
+                                    </button>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -51,32 +79,45 @@
 </template>
 
 <script>
+
 export default {
     data() {
         return {
-            accounts:{},
-            value: ''
+            accounts: {},
+            value: '',
+            valueDeposit: '',
         }
+    },
+    mounted() {
+        this.getResults();
     },
     methods: {
         withdrawSave() {
             axios.post('saque', {
                 value: this.value
             })
-            .then(response => {
-                this.value = ''
-            });
-        },
-        mounted() {
-            this.getResults();
+                .then(response => {
+                    this.value = '';
+                    this.getResults();
+                });
         },
         getResults(page = 1) {
             axios.get('account?page=' + page)
                 .then(response => {
-                    console.log(response.data);
-                    this.accounts = response.data;
+                    console.log(response);
+                    this.accounts = response;
                 });
-        }
+        },
+        depositSave() {
+            axios.post('deposito', {
+                value: this.valueDeposit
+            })
+                .then(response => {
+                    this.valueDeposit = '';
+                    this.getResults();
+                });
+        },
+
     }
 }
 </script>

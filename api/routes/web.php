@@ -26,3 +26,4 @@ Route::post('deposito', '\Bank\Http\Controllers\DepositController@store');
 Route::get('movimentacao/{idAccount}', '\Bank\Http\Controllers\MovimentController@index');
 
 Route::get('account', '\Bank\Http\Controllers\AccountController@index');
+Route::get('account/{id}', '\Bank\Http\Controllers\AccountController@show');

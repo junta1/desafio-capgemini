@@ -26,5 +26,18 @@ class AccountController extends Controller
             return response()->json($e->getMessage(), 400);
         }
     }
+
+    public function show(int $id)
+    {
+        try {
+            $service = $this->service->find($id);
+
+            return response()->json($service, 200);
+
+        } catch (\Exception $e) {
+
+            return response()->json($e->getMessage(), 400);
+        }
+    }
 }
 
