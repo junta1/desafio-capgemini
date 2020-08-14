@@ -15,4 +15,6 @@ class ClientModel extends Model
         'clie_phone',
         'clie_cpf',
     ];
+
+    public $timestamps;
 }

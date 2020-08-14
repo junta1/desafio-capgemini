@@ -13,4 +13,6 @@ class TypeDriveModel extends Model
     protected $fillable = [
         'type_driv_name'
     ];
+
+    public $timestamps;
 }

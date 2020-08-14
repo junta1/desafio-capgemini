@@ -18,6 +18,8 @@ class AccountModel extends Model
         'cod_bank',
     ];
 
+    public $timestamps;
+
     public function client()
     {
         return $this->belongsTo(ClientModel::class, 'cod_client');

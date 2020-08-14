@@ -14,4 +14,6 @@ class BankModel extends Model
         'bank_name',
         'bank_code'
     ];
+
+    public $timestamps;
 }
