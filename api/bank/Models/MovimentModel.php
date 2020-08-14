@@ -17,6 +17,8 @@ class MovimentModel extends Model
         'cod_account',
     ];
 
+    public $timestamps;
+
     public function typeDrive()
     {
         return $this->belongsTo(TypeDriveModel::class);
