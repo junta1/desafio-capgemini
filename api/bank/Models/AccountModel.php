@@ -27,6 +27,6 @@ class AccountModel extends Model
 
     public function bank()
     {
-        return $this->belongsTo(ClientModel::class, 'cod_bank');
+        return $this->belongsTo(BankModel::class, 'cod_bank');
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Bank\Repositories;
 
 use Bank\Models\AccountModel;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
 
 class AccountRepository
@@ -13,6 +14,19 @@ class AccountRepository
     public function __construct(AccountModel $accountModel)
     {
         $this->account = $accountModel;
+    }
+
+    public function all():Paginator
+    {
+        $data = $this->account
+            ->with([
+                'client',
+                'bank'
+            ])
+            ->orderBy('acco_account', 'asc')
+            ->paginate(5);
+
+        return $data;
     }
 
     public function find(int $id): Model

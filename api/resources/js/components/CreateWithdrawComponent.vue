@@ -42,7 +42,7 @@
                             </tr>
                             </tbody>
                         </table>
-
+                        <pagination :data="accounts" @pagination-change-page="getResults"></pagination>
                     </div>
                 </div>
             </div>
@@ -54,6 +54,7 @@
 export default {
     data() {
         return {
+            accounts:{},
             value: ''
         }
     },
@@ -62,7 +63,19 @@ export default {
             axios.post('saque', {
                 value: this.value
             })
-                .then(response => console.log(response));
+            .then(response => {
+                this.value = ''
+            });
+        },
+        mounted() {
+            this.getResults();
+        },
+        getResults(page = 1) {
+            axios.get('account?page=' + page)
+                .then(response => {
+                    console.log(response.data);
+                    this.accounts = response.data;
+                });
         }
     }
 }

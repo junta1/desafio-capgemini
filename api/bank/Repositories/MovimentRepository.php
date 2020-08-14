@@ -38,7 +38,7 @@ class MovimentRepository
         return $this->moviment
             ->where('cod_account', '=', $id)
             ->orderBy('movi_date', 'asc')
-            ->get();
+            ->paginate(5);
     }
 
     public function save($input): Model
