@@ -14,3 +14,13 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('saldo/{id}', '\Bank\Http\Controllers\BalanceController@index');
+Route::post('saque', '\Bank\Http\Controllers\WithdrawController@store');
+Route::post('deposito', '\Bank\Http\Controllers\DepositController@store');
+
+Route::get('movimentacao/{idAccount}', '\Bank\Http\Controllers\MovimentController@index');

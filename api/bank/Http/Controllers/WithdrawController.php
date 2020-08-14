@@ -19,7 +19,7 @@ class WithdrawController extends Controller
     {
         try {
             $input = $request->all();
-
+//dd($input);
             $withdraw = $this->service->withdrawSave($input);
 
             return response()->json($withdraw, 200);

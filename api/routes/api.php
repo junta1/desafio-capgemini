@@ -17,8 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('saldo/{id}', '\Bank\Http\Controllers\BalanceController@index');
-Route::post('saque', '\Bank\Http\Controllers\WithdrawController@store');
-Route::post('deposito', '\Bank\Http\Controllers\DepositController@store');
-
-Route::get('movimentacao/{idAccount}', '\Bank\Http\Controllers\MovimentController@index');
+//Route::get('saldo/{id}', '\Bank\Http\Controllers\BalanceController@index');
+//Route::post('saque', '\Bank\Http\Controllers\WithdrawController@store');
+//Route::post('deposito', '\Bank\Http\Controllers\DepositController@store');
+//
+//Route::get('movimentacao/{idAccount}', '\Bank\Http\Controllers\MovimentController@index');
