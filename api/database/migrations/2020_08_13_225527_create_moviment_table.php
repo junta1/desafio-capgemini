@@ -17,7 +17,6 @@ class CreateMovimentTable extends Migration
             $table->bigIncrements('movi_id');
             $table->dateTime('movi_date');
             $table->double('movi_value');
-            $table->string('movi_');
 
             $table->unsignedBigInteger('cod_type_drive');
             $table->unsignedBigInteger('cod_account');
