@@ -10,10 +10,6 @@ Acesse ao projeto e lavante o container:
 
 `docker-compose up -d`
 
-Acesse ao container: 
-
-`docker exec -it desafio-capgemini-php-fpm bash`
-
 Verifique se todos os containers foram levantados executando:
 
 `docker ps`
@@ -23,6 +19,10 @@ Estes containers devem estar em funcionamento:
 `desafio-capgemini-mysql`
 `desafio-capgemini-webserver`
 `desafio-capgemini-php-fpm`
+
+Acesse ao container: 
+
+`docker exec -it desafio-capgemini-php-fpm bash`
 
 ## Configurando projeto
 
