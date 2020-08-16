@@ -13,6 +13,8 @@ class DepositService
 
     protected $account;
 
+    const DEPOSIT = 2;
+
     public function __construct(MovimentRepository $movimentRepository, AccountRepository $accountRepository)
     {
         $this->moviment = $movimentRepository;
@@ -43,10 +45,10 @@ class DepositService
         $date = new \DateTime();
 
         return [
-            'movi_value' => $input['value'],
+            'movi_value' => number_format((float)$input['value'], 2, '.', ','),
             'movi_date' => $date,
             'cod_account' => $input['codAccount'],
-            'cod_type_drive' => 2, //deposit
+            'cod_type_drive' => self::DEPOSIT,
         ];
     }
 

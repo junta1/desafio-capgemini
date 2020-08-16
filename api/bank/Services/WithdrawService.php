@@ -13,6 +13,8 @@ class WithdrawService
 
     protected $account;
 
+    const WITHDRAW = 1;
+
     public function __construct(MovimentRepository $movimentRepository, AccountRepository $accountRepository)
     {
         $this->moviment = $movimentRepository;
@@ -22,7 +24,6 @@ class WithdrawService
     public function withdrawSave($input):array
     {
         $account = $this->account->find($input['codAccount']);
-
         $inputCustom = $this->inputCustom($input);
         $inputCustom['acco_balance'] = $this->withdraw((float)$account->acco_balance, (float)$input['value']);
 
@@ -49,10 +50,10 @@ class WithdrawService
         $date = new \DateTime();
 
         return [
-            'movi_value' => $input['value'],
+            'movi_value' => number_format((float)$input['value'], 2, '.', ','),
             'movi_date' => $date,
             'cod_account' => $input['codAccount'],
-            'cod_type_drive' => 1, //saque
+            'cod_type_drive' => self::WITHDRAW, //saque
         ];
     }
 
