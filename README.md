@@ -47,6 +47,8 @@ Gere as migrations com as seeds:
 
 `php artisan migrate:refresh --seed`
 
+_obs:As vezes o container desafio-capgemini-mysql cai e será preciso levanta-lo._
+
 Depedências via nodejs:
 
 `npm install && npm run dev`
