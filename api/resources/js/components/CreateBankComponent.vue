@@ -200,7 +200,6 @@ export default {
         return {
             accounts: {},
             account: {},
-            moviments: {},
             valueWithdraw: '',
             valueDeposit: '',
             codAccount: '',

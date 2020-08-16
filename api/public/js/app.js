@@ -2108,7 +2108,6 @@ __webpack_require__.r(__webpack_exports__);
     return {
       accounts: {},
       account: {},
-      moviments: {},
       valueWithdraw: '',
       valueDeposit: '',
       codAccount: ''
