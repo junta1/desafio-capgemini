@@ -53,9 +53,11 @@ Depedências via nodejs:
 
 `npm install && npm run dev`
 
-Execute:
+Para poder modificar o front execute e visualizar as modificações:
+_OBS: Pule esta etapa se estiver apenas testando o projeto._
 
 `npm run watch` 
+
 
 No navegador, acesse a página inicial do projeto pelo link: <http://localhost:7979>
 
