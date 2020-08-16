@@ -6,7 +6,7 @@
 
 ## Levantar o Container
 
-Acesse ao projeto e lavante o container: 
+Acesse ao projeto (entre no diretório desafio-capgemini) e lavante o container: 
 
 `docker-compose up -d`
 
