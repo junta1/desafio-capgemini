@@ -53,7 +53,7 @@ Depedências via nodejs:
 
 `npm install && npm run dev`
 
-Para poder modificar o front execute e visualizar as modificações:
+Para poder modificar o front e visualizar as modificações:
 
 _OBS: Pule esta etapa se estiver apenas testando o projeto._
 
