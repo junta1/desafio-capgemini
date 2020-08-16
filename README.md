@@ -14,9 +14,9 @@ Acesse ao container:
 
 `docker exec -it desafio-capgemini-php-fpm bash`
 
-Verifique se todos os containers foram levantados.
+Verifique se todos os containers foram levantados executando:
 
-Execute: `docker ps`
+`docker ps`
 
 Estes containers devem estar em funcionamento:
 
