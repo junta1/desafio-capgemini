@@ -14,7 +14,11 @@ Acesse ao container:
 
 `docker exec -it desafio-capgemini-php-fpm bash`
 
-_Obs: Configure o projeto nos próximos passos._ 
+Verifique se todos os containers citados abaixos foram levantados:
+
+`desafio-capgemini-mysql`
+`desafio-capgemini-webserver`
+`desafio-capgemini-php-fpm`
 
 ## Configurando projeto
 
