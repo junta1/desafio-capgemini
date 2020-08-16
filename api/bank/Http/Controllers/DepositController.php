@@ -4,6 +4,7 @@ namespace Bank\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Bank\Services\DepositService;
+use Bank\Validation\BankValidation;
 use Illuminate\Http\Request;
 
 class DepositController extends Controller
@@ -15,7 +16,7 @@ class DepositController extends Controller
         $this->service = $depositService;
     }
 
-    public function store(Request $request)
+    public function store(BankValidation $request)
     {
         try {
             $input = $request->all();

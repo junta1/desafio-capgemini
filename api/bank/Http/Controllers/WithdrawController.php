@@ -4,6 +4,7 @@ namespace Bank\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Bank\Services\WithdrawService;
+use Bank\Validation\BankValidation;
 use Illuminate\Http\Request;
 
 class WithdrawController extends Controller
@@ -15,7 +16,7 @@ class WithdrawController extends Controller
         $this->service = $movimentService;
     }
 
-    public function store(Request $request)
+    public function store(BankValidation $request)
     {
         try {
             $input = $request->all();
