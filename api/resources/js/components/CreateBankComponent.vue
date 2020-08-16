@@ -33,19 +33,14 @@
                                         Ver
                                     </button>
 
-                                    <button type="button" @click.prevent="withdrawSave"
+                                    <button type="button" @click.prevent="accountFind(account.idAccount)"
                                             class="btn btn-primary" data-toggle="modal" data-target="#modalWithdraw">
                                         Sacar
                                     </button>
 
-                                    <button type="button" @click.prevent="depositSave"
+                                    <button type="button" @click.prevent="accountFind(account.idAccount)"
                                             class="btn btn-primary" data-toggle="modal" data-target="#modalDeposit">
                                         Depositar
-                                    </button>
-
-                                    <button type="button" @click.prevent="movimentAll(account.idAccount)"
-                                            class="btn btn-primary" data-toggle="modal" data-target="#modalMoviment">
-                                        Extrato
                                     </button>
 
                                 </td>
@@ -73,7 +68,7 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th scope="col">Id</th>
                                 <th scope="col">Agencia</th>
                                 <th scope="col">Conta</th>
                                 <th scope="col">Saldo</th>
@@ -102,7 +97,8 @@
         </div>
 
         <!-- Modal Withdraw -->
-        <div class="modal fade" id="modalWithdraw" tabindex="-1" role="dialog" aria-labelledby="modalWithdrawLabel"
+        <div class="modal fade" ref="myModalRef" id="modalWithdraw" tabindex="-1" role="dialog"
+             aria-labelledby="modalWithdrawLabel"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -117,12 +113,27 @@
                             <form>
                                 <div class="form-group">
                                     <label for="value">Valor do Saque</label>
-                                    <input type="number" v-model="value" class="form-control" id="value"
+                                    <input type="number" v-model="valueWithdraw" class="form-control" id="value"
                                            aria-describedby="withdrawHelp" placeholder="Digite o valor para sacar!">
+
+                                    <input TYPE="hidden" v-model="codAccount" class="form-control">
                                 </div>
                                 <button type="submit" @click.prevent="withdrawSave" class="btn btn-primary">Enviar
                                 </button>
                             </form>
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Saldo</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ account.balance }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -150,61 +161,26 @@
                                     <label for="valueDeposito">Valor do Depósito</label>
                                     <input type="number" v-model="valueDeposit" class="form-control" id="valueDeposito"
                                            aria-describedby="withdrawHelp" placeholder="Digite o valor para depositar!">
+
+                                    <input TYPE="hidden" v-model="codAccount" class="form-control">
                                 </div>
                                 <button type="submit" @click.prevent="depositSave" class="btn btn-primary">Enviar
                                 </button>
                             </form>
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Saldo</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ account.balance }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal Moviment-->
-        <div class="modal fade" id="modalMoviment" tabindex="-1" role="dialog" aria-labelledby="modalMovimentLabel"
-             aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalMovimentLabel">Conta</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-
-<!--                        <div class="card-body">-->
-<!--                            <table class="table">-->
-<!--                                <thead>-->
-<!--                                <tr>-->
-<!--                                    <th scope="col">#</th>-->
-<!--                                    <th scope="col">Agencia</th>-->
-<!--                                    <th scope="col">Conta</th>-->
-<!--                                    <th scope="col">Saldo</th>-->
-<!--                                    <th scope="col">Cliente</th>-->
-<!--                                    <th scope="col">Banco</th>-->
-<!--                                </tr>-->
-<!--                                </thead>-->
-<!--                                <tbody>-->
-<!--                                <tr v-for="(account,index) in accounts.data" :key="account.idAccount">-->
-<!--                                    <th scope="row">{{ index + 1 }}</th>-->
-<!--                                    <td>{{ account.agency }}</td>-->
-<!--                                    <td>{{ account.account }}</td>-->
-<!--                                    <td>{{ account.balance }}</td>-->
-<!--                                    <td>{{ account.client }}</td>-->
-<!--                                    <td>{{ account.bank }}</td>-->
-<!--                                </tr>-->
-<!--                                </tbody>-->
-<!--                            </table>-->
-<!--                            <pagination :data="accounts" @pagination-change-page="getResults"></pagination>-->
-<!--                        </div>-->
-
-
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -224,9 +200,10 @@ export default {
         return {
             accounts: {},
             account: {},
-            moviment: {},
-            value: '',
+            moviments: {},
+            valueWithdraw: '',
             valueDeposit: '',
+            codAccount: '',
         }
     },
     mounted() {
@@ -234,11 +211,12 @@ export default {
     },
     methods: {
         withdrawSave() {
-            axios.post('saque', {
-                value: this.value
+            axios.post('withdraw', {
+                value: this.valueWithdraw,
+                codAccount: this.codAccount
             })
                 .then(response => {
-                    this.value = '';
+                    this.valueWithdraw = '';
                     this.getResults();
                 });
         },
@@ -250,8 +228,9 @@ export default {
                 });
         },
         depositSave() {
-            axios.post('deposito', {
-                value: this.valueDeposit
+            axios.post('deposit', {
+                value: this.valueDeposit,
+                codAccount: this.codAccount
             })
                 .then(response => {
                     this.valueDeposit = '';
@@ -263,15 +242,9 @@ export default {
                 .then(response => {
                     console.log(response.data);
                     this.account = response.data;
+                    this.codAccount = response.data.idAccount;
                 });
         },
-        moviment(id){
-            axios.get('movimentacao/' + id)
-            .then(response => {
-                console.log(response);
-                this.moviment = response;
-            });
-        }
     }
 }
 </script>

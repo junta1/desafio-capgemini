@@ -36,9 +36,13 @@ class MovimentRepository
     public function all($id)
     {
         return $this->moviment
+            ->with([
+                'typeDrive',
+                'account'
+            ])
             ->where('cod_account', '=', $id)
             ->orderBy('movi_date', 'asc')
-            ->paginate(5);
+            ->get();
     }
 
     public function save($input): Model

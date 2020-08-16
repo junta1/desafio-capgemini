@@ -12,18 +12,16 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('saldo/{id}', '\Bank\Http\Controllers\BalanceController@index');
-Route::post('saque', '\Bank\Http\Controllers\WithdrawController@store');
-Route::post('deposito', '\Bank\Http\Controllers\DepositController@store');
+Route::resource('account', '\Bank\Http\Controllers\AccountController');
+Route::get('balance/{id}', '\Bank\Http\Controllers\BalanceController@index');
+Route::post('withdraw', '\Bank\Http\Controllers\WithdrawController@store');
+Route::post('deposit', '\Bank\Http\Controllers\DepositController@store');
 
-Route::get('movimentacao/{idAccount}', '\Bank\Http\Controllers\MovimentController@index');
-
-Route::get('account', '\Bank\Http\Controllers\AccountController@index');
-Route::get('account/{id}', '\Bank\Http\Controllers\AccountController@show');
+Route::get('moviment/{idAccount}', '\Bank\Http\Controllers\MovimentController@index');

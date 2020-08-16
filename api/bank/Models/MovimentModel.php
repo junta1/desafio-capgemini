@@ -21,11 +21,11 @@ class MovimentModel extends Model
 
     public function typeDrive()
     {
-        return $this->belongsTo(TypeDriveModel::class);
+        return $this->belongsTo(TypeDriveModel::class, 'cod_type_drive');
     }
 
     public function account()
     {
-        return $this->belongsTo(AccountModel::class);
+        return $this->belongsTo(AccountModel::class, 'cod_account');
     }
 }

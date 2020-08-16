@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Bank\Services;
 
 use Bank\Repositories\AccountRepository;
+use Illuminate\Database\Eloquent\Model;
 
 class BalanceService
 {
@@ -23,15 +24,17 @@ class BalanceService
         return $outputCustom;
     }
 
-    public function outputCustom($output):array
+    public function outputCustom(Model $output): array
     {
         return [
-            'idAccount'=> $output['acco_id'],
-            'agency'=> $output['acco_agency'],
-            'account'=> $output['acco_account'],
-            'balance'=> $output['acco_balance'],
-            'client'=> $output['cod_client'],
-            'bank'=> $output['cod_bank'],
+            'idAccount' => $output->acco_id,
+            'agency' => $output->acco_agency,
+            'account' => $output->acco_account,
+            'balance' => number_format((float)$output->acco_balance, 2, ',', ''),
+            'idBank' => $output->cod_bank,
+            'bank' => $output->bank->bank_name,
+            'idClient' => $output->cod_client,
+            'client' => $output->client->clie_name,
         ];
     }
 }

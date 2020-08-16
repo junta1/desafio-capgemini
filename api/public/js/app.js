@@ -2103,38 +2103,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       accounts: {},
       account: {},
-      moviment: {},
-      value: '',
-      valueDeposit: ''
+      moviments: {},
+      valueWithdraw: '',
+      valueDeposit: '',
+      codAccount: ''
     };
   },
   mounted: function mounted() {
@@ -2144,10 +2121,11 @@ __webpack_require__.r(__webpack_exports__);
     withdrawSave: function withdrawSave() {
       var _this = this;
 
-      axios.post('saque', {
-        value: this.value
+      axios.post('withdraw', {
+        value: this.valueWithdraw,
+        codAccount: this.codAccount
       }).then(function (response) {
-        _this.value = '';
+        _this.valueWithdraw = '';
 
         _this.getResults();
       });
@@ -2164,8 +2142,9 @@ __webpack_require__.r(__webpack_exports__);
     depositSave: function depositSave() {
       var _this3 = this;
 
-      axios.post('deposito', {
-        value: this.valueDeposit
+      axios.post('deposit', {
+        value: this.valueDeposit,
+        codAccount: this.codAccount
       }).then(function (response) {
         _this3.valueDeposit = '';
 
@@ -2178,14 +2157,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('account/' + id).then(function (response) {
         console.log(response.data);
         _this4.account = response.data;
-      });
-    },
-    moviment: function moviment(id) {
-      var _this5 = this;
-
-      axios.get('movimentacao/' + id).then(function (response) {
-        console.log(response);
-        _this5.moviment = response;
+        _this4.codAccount = response.data.idAccount;
       });
     }
   }
@@ -38453,7 +38425,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                                        Ver\n                                    "
+                              "\n                                    Ver\n                                "
                             )
                           ]
                         ),
@@ -38470,13 +38442,13 @@ var render = function() {
                             on: {
                               click: function($event) {
                                 $event.preventDefault()
-                                return _vm.withdrawSave($event)
+                                return _vm.accountFind(account.idAccount)
                               }
                             }
                           },
                           [
                             _vm._v(
-                              "\n                                        Sacar\n                                    "
+                              "\n                                    Sacar\n                                "
                             )
                           ]
                         ),
@@ -38493,36 +38465,13 @@ var render = function() {
                             on: {
                               click: function($event) {
                                 $event.preventDefault()
-                                return _vm.depositSave($event)
+                                return _vm.accountFind(account.idAccount)
                               }
                             }
                           },
                           [
                             _vm._v(
-                              "\n                                        Depositar\n                                    "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-primary",
-                            attrs: {
-                              type: "button",
-                              "data-toggle": "modal",
-                              "data-target": "#modalMoviment"
-                            },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.movimentAll(account.idAccount)
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                        Extrato\n                                    "
+                              "\n                                    Depositar\n                                "
                             )
                           ]
                         )
@@ -38596,6 +38545,7 @@ var render = function() {
     _c(
       "div",
       {
+        ref: "myModalRef",
         staticClass: "modal fade",
         attrs: {
           id: "modalWithdraw",
@@ -38626,8 +38576,8 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.value,
-                            expression: "value"
+                            value: _vm.valueWithdraw,
+                            expression: "valueWithdraw"
                           }
                         ],
                         staticClass: "form-control",
@@ -38637,13 +38587,35 @@ var render = function() {
                           "aria-describedby": "withdrawHelp",
                           placeholder: "Digite o valor para sacar!"
                         },
-                        domProps: { value: _vm.value },
+                        domProps: { value: _vm.valueWithdraw },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.value = $event.target.value
+                            _vm.valueWithdraw = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.codAccount,
+                            expression: "codAccount"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { TYPE: "hidden" },
+                        domProps: { value: _vm.codAccount },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.codAccount = $event.target.value
                           }
                         }
                       })
@@ -38661,13 +38633,23 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("Enviar\n                                ")]
+                      [_vm._v("Enviar\n                            ")]
                     )
+                  ]),
+                  _vm._v(" "),
+                  _c("table", { staticClass: "table" }, [
+                    _vm._m(5),
+                    _vm._v(" "),
+                    _c("tbody", [
+                      _c("tr", [
+                        _c("td", [_vm._v(_vm._s(_vm.account.balance))])
+                      ])
+                    ])
                   ])
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(5)
+              _vm._m(6)
             ])
           ]
         )
@@ -38692,7 +38674,7 @@ var render = function() {
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(6),
+              _vm._m(7),
               _vm._v(" "),
               _c("div", { staticClass: "card" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -38727,6 +38709,28 @@ var render = function() {
                             _vm.valueDeposit = $event.target.value
                           }
                         }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.codAccount,
+                            expression: "codAccount"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { TYPE: "hidden" },
+                        domProps: { value: _vm.codAccount },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.codAccount = $event.target.value
+                          }
+                        }
                       })
                     ]),
                     _vm._v(" "),
@@ -38742,20 +38746,28 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("Enviar\n                                ")]
+                      [_vm._v("Enviar\n                            ")]
                     )
+                  ]),
+                  _vm._v(" "),
+                  _c("table", { staticClass: "table" }, [
+                    _vm._m(8),
+                    _vm._v(" "),
+                    _c("tbody", [
+                      _c("tr", [
+                        _c("td", [_vm._v(_vm._s(_vm.account.balance))])
+                      ])
+                    ])
                   ])
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(7)
+              _vm._m(9)
             ])
           ]
         )
       ]
-    ),
-    _vm._v(" "),
-    _vm._m(8)
+    )
   ])
 }
 var staticRenderFns = [
@@ -38812,7 +38824,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Id")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Agencia")]),
         _vm._v(" "),
@@ -38870,6 +38882,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [_c("th", { attrs: { scope: "col" } }, [_vm._v("Saldo")])])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-footer" }, [
       _c(
         "button",
@@ -38910,6 +38930,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [_c("th", { attrs: { scope: "col" } }, [_vm._v("Saldo")])])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-footer" }, [
       _c(
         "button",
@@ -38920,74 +38948,6 @@ var staticRenderFns = [
         [_vm._v("Close")]
       )
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "modalMoviment",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "modalMovimentLabel",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
-          [
-            _c("div", { staticClass: "modal-content" }, [
-              _c("div", { staticClass: "modal-header" }, [
-                _c(
-                  "h5",
-                  {
-                    staticClass: "modal-title",
-                    attrs: { id: "modalMovimentLabel" }
-                  },
-                  [_vm._v("Conta")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "close",
-                    attrs: {
-                      type: "button",
-                      "data-dismiss": "modal",
-                      "aria-label": "Close"
-                    }
-                  },
-                  [
-                    _c("span", { attrs: { "aria-hidden": "true" } }, [
-                      _vm._v("×")
-                    ])
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" }
-                  },
-                  [_vm._v("Close")]
-                )
-              ])
-            ])
-          ]
-        )
-      ]
-    )
   }
 ]
 render._withStripped = true

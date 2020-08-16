@@ -16,9 +16,6 @@ class TypeDriveSeeder extends Seeder
                 'type_driv_name' => 'Saque'
             ],
             [
-                'type_driv_name' => 'Transferência Enviada'
-            ],
-            [
                 'type_driv_name' => 'Depósito Recebido'
             ],
         ]);

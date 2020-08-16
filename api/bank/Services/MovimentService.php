@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Bank\Services;
 
 use Bank\Repositories\MovimentRepository;
+use Illuminate\Database\Eloquent\Model;
 
 class MovimentService
 {
@@ -18,6 +19,7 @@ class MovimentService
     {
         $outputs = $this->moviment->all($idAccount);
 
+        $outputCustom = [];
         foreach ($outputs as $output) {
             $outputCustom[] = $this->outputCustom($output);
         }
@@ -25,14 +27,15 @@ class MovimentService
         return $outputCustom;
     }
 
-    public function outputCustom($output): array
+    public function outputCustom(Model $output)
     {
         return [
-            'idMoviment' => $output['movi_id'],
-            'date' => $output['movi_date'],
-            'value' => $output['movi_value'],
-            'typeDrive' => $output['cod_type_drive'],
-            'account' => $output['cod_account']
+            'idMoviment' => $output->movi_id,
+            'date' => $output->movi_date,
+            'value' => $output->movi_value,
+            'typeDrive' => $output->typeDrive->type_driv_name,
+            'agency' => $output->account->acco_agency,
+            'accoAccount' => $output->account->acco_account,
         ];
     }
 }

@@ -37,7 +37,6 @@ class AccountService
 
     public function outputCustom(Model $output): array
     {
-
         return [
             'idAccount' => $output->acco_id,
             'agency' => $output->acco_agency,
