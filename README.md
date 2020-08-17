@@ -35,7 +35,7 @@ Altere as permissões:
 `chmod -R 777 storage/ bootstrap/`
 
 Copiar e colar o arquivo .env.example 
-situado em (testeanalistajr/www/.env.example) para .env no mesmo local ou executar o comando:
+situado em (desafio-capgemini/api/.env.example) para .env no mesmo local ou executar o comando:
 
 `cp .env.example  .env`
 
